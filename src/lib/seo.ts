@@ -60,6 +60,7 @@ export function getCategoryLabel(category: string): string {
     vs: "Versus",
     avis: "Avis",
     guides: "Guides",
+    alternatives: "Alternatives",
   };
   return labels[category] ?? category;
 }

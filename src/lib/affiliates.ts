@@ -72,6 +72,12 @@ export const affiliateLinks: Record<string, AffiliateLink> = {
     url: "#",
     cta: "Voir l'offre PlanetHoster",
   },
+  scaleway: {
+    id: "scaleway",
+    name: "Scaleway",
+    url: "#",
+    cta: "Voir l'offre Scaleway",
+  },
 };
 
 export function getAffiliateLink(id: string): AffiliateLink | null {

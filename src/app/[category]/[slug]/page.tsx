@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypeSlug from "rehype-slug";
-import { getArticleBySlug, getAllArticlePaths } from "@/lib/mdx";
+import Link from "next/link";
+import { getArticleBySlug, getAllArticlePaths, getAllArticles } from "@/lib/mdx";
 import { buildMetadata, buildCanonical, getCategoryLabel, SITE_URL } from "@/lib/seo";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ReadingProgressBar } from "@/components/layout/ReadingProgressBar";
@@ -28,6 +29,8 @@ import {
 import { AffiliateButton } from "@/components/content/AffiliateButton";
 import { ProsConsList } from "@/components/ui/ProsConsList";
 import { OverallScore } from "@/components/ui/Rating";
+import { NewsletterCTA } from "@/components/content/NewsletterCTA";
+import { CrossSiteLink } from "@/components/content/CrossSiteLink";
 
 interface PageProps {
   params: Promise<{ category: string; slug: string }>;
@@ -52,6 +55,7 @@ const mdxComponents = {
   AffiliateButton,
   ProsConsList,
   OverallScore,
+  CrossSiteLink,
 };
 
 export async function generateStaticParams() {
@@ -72,6 +76,9 @@ export default async function ArticlePage({ params }: PageProps) {
 
   const { meta, content } = article;
   const canonical = buildCanonical(category, slug);
+
+  // Get related articles (same category, excluding current)
+  const allArticles = getAllArticles(category).filter((a) => a.slug !== slug).slice(0, 3);
 
   return (
     <>
@@ -102,7 +109,7 @@ export default async function ArticlePage({ params }: PageProps) {
             ]}
           />
           <h1
-            className="text-3xl sm:text-4xl font-normal text-[#111218] mt-4 mb-3 max-w-3xl leading-tight"
+            className="text-3xl sm:text-4xl font-semibold text-[#111218] mt-4 mb-3 max-w-3xl leading-tight"
             style={{ fontFamily: "var(--font-display)", letterSpacing: "-0.02em" }}
           >
             {meta.title}
@@ -134,6 +141,34 @@ export default async function ArticlePage({ params }: PageProps) {
               }}
             />
           </article>
+
+          {/* Newsletter CTA */}
+          <div className="mt-12">
+            <NewsletterCTA variant="inline" />
+          </div>
+
+          {/* Vous aimerez aussi */}
+          {allArticles.length > 0 && (
+            <div className="mt-12 pt-10 border-t border-[#e3e0d8]">
+              <p className="section-label mb-4">Vous aimerez aussi</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {allArticles.map((a) => (
+                  <Link
+                    key={a.slug}
+                    href={`/${a.category}/${a.slug}`}
+                    className="group bg-white border border-[#e3e0d8] rounded-xl p-4 card-hover block"
+                  >
+                    <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-[#ecfdf5] text-[#059669]" style={{ fontFamily: "var(--font-mono)" }}>
+                      {a.category}
+                    </span>
+                    <h3 className="text-[14px] font-semibold leading-snug text-[#111218] mt-2 group-hover:text-[#059669] transition-colors line-clamp-3" style={{ fontFamily: "var(--font-display)" }}>
+                      {a.title}
+                    </h3>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
