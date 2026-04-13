@@ -8,6 +8,8 @@ const navLinks = [
   { label: "Versus", href: "/vs" },
   { label: "Avis", href: "/avis" },
   { label: "Méthode", href: "/methodologie" },
+  { label: "Quiz", href: "/quiz" },
+  { label: "Comparateur", href: "/comparer" },
   { label: "À propos", href: "/a-propos" },
 ];
 

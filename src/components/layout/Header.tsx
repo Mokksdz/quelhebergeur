@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MobileMenu } from "./MobileMenu";
+import { SearchModal } from "./SearchModal";
 
 interface NavLink {
   label: string;
@@ -59,10 +60,21 @@ export function Header() {
                 </Link>
               );
             })}
+            <Link
+              href="/quiz"
+              className={`px-3.5 py-1.5 text-[13.5px] font-medium rounded-lg transition-colors ${
+                pathname === "/quiz"
+                  ? "text-[#059669] bg-[#ecfdf5]"
+                  : "text-[#6b7280] hover:text-[#111218]"
+              }`}
+            >
+              Quiz
+            </Link>
           </nav>
 
           {/* Right */}
           <div className="flex items-center gap-2">
+            <SearchModal />
             <Link
               href="/comparatifs/meilleur-hebergeur-web"
               className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#059669] text-white text-[13px] font-semibold rounded-lg hover:bg-[#047857] transition-colors duration-200"

@@ -2,37 +2,37 @@ import { type ReactNode } from "react";
 
 type VerdictType = "best" | "value" | "fast" | "neutral";
 
-const typeConfig: Record<
-  VerdictType,
-  { bg: string; border: string; icon: string; label: string; textColor: string }
-> = {
+interface VerdictConfig {
+  gradient: string;
+  pill: { bg: string; text: string };
+  icon: string;
+  label: string;
+}
+
+const typeConfig: Record<VerdictType, VerdictConfig> = {
   best: {
-    bg: "#ecfdf5",
-    border: "#059669",
+    gradient: "linear-gradient(135deg, #059669 0%, #10b981 100%)",
+    pill: { bg: "rgba(255,255,255,0.2)", text: "#ffffff" },
     icon: "★",
     label: "Notre meilleur choix",
-    textColor: "#059669",
   },
   value: {
-    bg: "#fffbeb",
-    border: "#d97706",
+    gradient: "linear-gradient(135deg, #d97706 0%, #f59e0b 100%)",
+    pill: { bg: "rgba(255,255,255,0.2)", text: "#ffffff" },
     icon: "€",
     label: "Meilleur rapport qualité/prix",
-    textColor: "#d97706",
   },
   fast: {
-    bg: "#eff6ff",
-    border: "#2563eb",
+    gradient: "linear-gradient(135deg, #2563eb 0%, #60a5fa 100%)",
+    pill: { bg: "rgba(255,255,255,0.2)", text: "#ffffff" },
     icon: "⚡",
     label: "Le plus performant",
-    textColor: "#2563eb",
   },
   neutral: {
-    bg: "#f0ede6",
-    border: "#e3e0d8",
+    gradient: "linear-gradient(135deg, #374151 0%, #6b7280 100%)",
+    pill: { bg: "rgba(255,255,255,0.2)", text: "#ffffff" },
     icon: "ℹ",
     label: "Notre verdict",
-    textColor: "#6b7280",
   },
 };
 
@@ -42,36 +42,28 @@ interface VerdictBoxProps {
   children: ReactNode;
 }
 
-export function VerdictBox({
-  type = "neutral",
-  title,
-  children,
-}: VerdictBoxProps) {
+export function VerdictBox({ type = "neutral", title, children }: VerdictBoxProps) {
   const config = typeConfig[type];
 
   return (
-    <div
-      className="rounded-xl p-5 border-l-4"
-      style={{
-        backgroundColor: config.bg,
-        borderLeftColor: config.border,
-        borderTopColor: config.border + "30",
-        borderRightColor: config.border + "20",
-        borderBottomColor: config.border + "20",
-      }}
-    >
-      <div className="flex items-center gap-2 mb-2">
-        <span style={{ color: config.textColor }} aria-hidden="true">
-          {config.icon}
-        </span>
+    <div className="rounded-xl overflow-hidden border border-[#e3e0d8] my-6">
+      {/* Gradient header */}
+      <div
+        className="px-5 py-3.5 flex items-center gap-2.5"
+        style={{ background: config.gradient }}
+      >
         <span
-          className="text-xs font-semibold uppercase tracking-wider"
-          style={{ color: config.textColor }}
+          className="text-[11px] font-bold px-2 py-0.5 rounded-full"
+          style={{ background: config.pill.bg, color: config.pill.text }}
         >
-          {title ?? config.label}
+          {config.icon} {title ?? config.label}
         </span>
       </div>
-      <div className="text-sm text-[#111218] leading-relaxed">{children}</div>
+
+      {/* Content */}
+      <div className="bg-white px-5 py-4 text-[14px] text-[#111218] leading-relaxed">
+        {children}
+      </div>
     </div>
   );
 }
