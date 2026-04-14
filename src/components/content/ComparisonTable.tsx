@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { type Hosting } from "@/lib/hostings";
 import { AffiliateButton } from "./AffiliateButton";
+import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
 
 interface ComparisonTableProps {
   hostings: Hosting[];
@@ -80,6 +81,7 @@ export function ComparisonTable({ hostings }: ComparisonTableProps) {
                   <span className="text-[11px] font-bold text-[#9ca3af] tabular-nums w-5 shrink-0" style={{ fontFamily: "var(--font-mono)" }}>
                     #{index + 1}
                   </span>
+                  <ImagePlaceholder label={`Logo ${hosting.name}`} shape="square" className="w-7 h-7 shrink-0 mr-2 inline-flex" />
                   <Link
                     href={`/avis/${hosting.slug}`}
                     className="font-semibold text-[#111218] hover:text-[#059669] transition-colors"

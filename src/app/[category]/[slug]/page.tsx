@@ -35,10 +35,15 @@ import { ShareButtons } from "@/components/ui/ShareButtons";
 import { ClientScrollToast } from "@/components/ui/ClientScrollToast";
 import { NewsletterCTA } from "@/components/content/NewsletterCTA";
 import { CrossSiteLink } from "@/components/content/CrossSiteLink";
+import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
 
 const topHosting = [...hostings].sort(
   (a, b) => b.scores.overall - a.scores.overall
 )[0];
+
+const quickPicks = [...hostings]
+  .sort((a, b) => b.scores.overall - a.scores.overall)
+  .slice(0, 3);
 
 interface PageProps {
   params: Promise<{ category: string; slug: string }>;
@@ -126,6 +131,9 @@ export default async function ArticlePage({ params }: PageProps) {
           >
             {meta.title}
           </h1>
+          <div className="mt-6 mb-8">
+            <ImagePlaceholder label="Image de couverture de l'article" aspectRatio="21/9" className="w-full" />
+          </div>
           <p className="text-lg text-[#6b7280] max-w-2xl mb-4">
             {meta.description}
           </p>
@@ -145,6 +153,16 @@ export default async function ArticlePage({ params }: PageProps) {
       {/* Article content */}
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="max-w-3xl">
+          {/* Quick Picks Bar */}
+          <div className="flex items-center gap-3 p-4 bg-[#F5F5F0] dark:bg-[#141414] rounded-xl border border-[#E8E8E3] dark:border-[#2E2E2E] mb-6 flex-wrap">
+            <span className="text-xs font-bold text-[#737369] uppercase tracking-wider shrink-0">Nos choix rapides :</span>
+            {quickPicks.map((pick) => (
+              <div key={pick.id} className="flex items-center gap-2">
+                <ImagePlaceholder label={`Logo ${pick.name}`} shape="square" className="w-6 h-6 shrink-0" />
+                <span className="text-xs font-semibold text-[#374151] dark:text-[#D1D5DB]">{pick.name}</span>
+              </div>
+            ))}
+          </div>
           <article className="prose prose-lg">
             <p className="text-xs text-[#737369] italic mb-4 border-l-2 border-[#E8E8E3] pl-3 not-prose">
               ℹ️ Cet article contient des liens affiliés. QuelHébergeur perçoit une commission si vous souscrivez via nos liens, sans coût supplémentaire pour vous.

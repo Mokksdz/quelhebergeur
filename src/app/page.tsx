@@ -5,6 +5,7 @@ import { HostingCard } from "@/components/content/HostingCard";
 import { NewsletterCTA } from "@/components/content/NewsletterCTA";
 import { ItemListJsonLd } from "@/components/seo/JsonLd";
 import { SITE_URL } from "@/lib/seo";
+import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -42,7 +43,12 @@ export default function HomePage() {
       />
 
       {/* HERO */}
-      <section className="hero-editorial">
+      <section className="hero-editorial relative overflow-hidden" style={{
+        background: `radial-gradient(ellipse 80% 60% at 50% -20%, rgba(5, 150, 105, 0.06) 0%, transparent 70%)`,
+      }}>
+        <div className="absolute inset-0 pointer-events-none opacity-40" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E")`,
+        }} aria-hidden="true" />
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-0">
           <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16">
             <div className="flex-1 max-w-2xl pb-14 lg:pb-20">
@@ -84,8 +90,15 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Leaderboard */}
-            <div className="hidden lg:block w-[300px] shrink-0 pb-16">
+            {/* Hero visual + Leaderboard */}
+            <div className="hidden lg:flex lg:flex-col lg:gap-4 w-[300px] shrink-0 pb-16">
+              <div className="relative rounded-2xl overflow-hidden">
+                <ImagePlaceholder
+                  label="Illustration hero hébergeur web"
+                  aspectRatio="4/3"
+                  className="w-full"
+                />
+              </div>
               <div className="glass rounded-2xl p-5">
                 <p className="section-label text-white/30 mb-4">Top hébergeurs 2026</p>
                 <div className="space-y-4">
@@ -134,6 +147,7 @@ export default function HomePage() {
       {/* TOP 3 PICKS */}
       <section className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-8">
+          <div className="w-16 h-1 bg-[#059669] rounded-full mb-3" />
           <p className="section-label mb-2">Sélection éditoriale</p>
           <h2 className="text-[28px] sm:text-[34px] font-semibold tracking-tight text-[#1A1A14]" style={{ fontFamily: "var(--font-display)" }}>
             Notre top 3 des hébergeurs web
@@ -141,11 +155,11 @@ export default function HomePage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {top3Picks.map((pick) => (
-            <div key={pick.name} className={`group relative bg-white border rounded-2xl p-5 card-hover overflow-hidden ${pick.isBest ? "border-[#059669]/30 shadow-[0_0_0_1px_rgba(5,150,105,0.1),0_4px_20px_rgba(5,150,105,0.08)]" : "border-[#E8E8E3]"}`}>
+            <div key={pick.name} className={`group relative bg-white border rounded-2xl p-5 card-hover overflow-hidden ${pick.isBest ? "border-[#059669]/30 shadow-[0_0_0_1px_rgba(5,150,105,0.1),0_4px_20px_rgba(5,150,105,0.08)]" : "border-[#E8E8E3] hover:border-[#059669]"}`}>
               {pick.isBest && <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#059669] to-[#34d399]" />}
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="text-2xl" aria-hidden="true">{pick.icon}</span>
+                  <ImagePlaceholder label={`Logo ${pick.name}`} shape="square" className="w-10 h-10 shrink-0" />
                   <span className={`text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${pick.isBest ? "badge-best bg-[#059669] text-white" : "bg-[#F5F5F0] text-[#737369]"}`} style={{ fontFamily: "var(--font-mono)" }}>{pick.badge}</span>
                 </div>
                 <span className={`text-[20px] font-bold ${pick.isBest ? "text-[#059669]" : "text-[#374151]"}`} style={{ fontFamily: "var(--font-mono)" }}>{pick.score.toFixed(1)}</span>
@@ -166,6 +180,7 @@ export default function HomePage() {
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-10">
             <div>
+              <div className="w-16 h-1 bg-[#059669] rounded-full mb-3" />
               <p className="section-label mb-2">Catégories</p>
               <h2 className="text-[28px] sm:text-[34px] font-semibold tracking-tight text-[#1A1A14]" style={{ fontFamily: "var(--font-display)" }}>
                 Quel type d&apos;hébergement ?
@@ -176,10 +191,8 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {categories.map((cat) => {
               const card = (
-                <div className={`group bg-white border border-[#E8E8E3] rounded-2xl p-5 card-hover flex items-start gap-4 ${!cat.live ? "opacity-55 cursor-default" : "cursor-pointer"}`}>
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0" style={{ background: "#05966912" }}>
-                    <span aria-hidden="true">{cat.icon}</span>
-                  </div>
+                <div className={`group bg-white border border-[#E8E8E3] rounded-2xl p-5 card-hover flex items-start gap-4 ${!cat.live ? "opacity-55 cursor-default" : "cursor-pointer hover:border-[#059669]"}`}>
+                  <ImagePlaceholder label={`Icône ${cat.label}`} shape="square" className="w-10 h-10" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2 mb-1">
                       <h3 className={`text-[15px] font-semibold tracking-tight transition-colors ${cat.live ? "text-[#1A1A14] group-hover:text-[#059669]" : "text-[#888]"}`} style={{ fontFamily: "var(--font-display)" }}>{cat.label}</h3>
@@ -204,6 +217,7 @@ export default function HomePage() {
         <section className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="flex items-end justify-between mb-10">
             <div>
+              <div className="w-16 h-1 bg-[#059669] rounded-full mb-3" />
               <p className="section-label mb-2">Derniers articles</p>
               <h2 className="text-[28px] sm:text-[34px] font-semibold tracking-tight text-[#1A1A14]" style={{ fontFamily: "var(--font-display)" }}>Fraîchement publiés</h2>
             </div>
@@ -211,6 +225,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {articles[0] && (
               <Link href={`/${articles[0].category}/${articles[0].slug}`} className="group col-span-1 bg-white border border-[#E8E8E3] rounded-2xl p-6 card-hover block">
+                <ImagePlaceholder label="Vignette article" aspectRatio="16/9" className="w-full mb-3" />
                 <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-[#ecfdf5] text-[#059669]" style={{ fontFamily: "var(--font-mono)" }}>{articles[0].category}</span>
                 <h3 className="text-[20px] font-semibold leading-snug tracking-tight text-[#1A1A14] mt-3 mb-3 group-hover:text-[#059669] transition-colors" style={{ fontFamily: "var(--font-display)" }}>{articles[0].title}</h3>
                 <p className="text-[14px] text-[#737369] line-clamp-3 leading-relaxed mb-4">{articles[0].description}</p>
@@ -223,6 +238,7 @@ export default function HomePage() {
             <div className="flex flex-col gap-5">
               {articles.slice(1, 3).map((a) => (
                 <Link key={a.slug} href={`/${a.category}/${a.slug}`} className="group bg-white border border-[#E8E8E3] rounded-2xl p-5 card-hover block">
+                  <ImagePlaceholder label="Vignette article" aspectRatio="16/9" className="w-full mb-3" />
                   <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-[#ecfdf5] text-[#059669]" style={{ fontFamily: "var(--font-mono)" }}>{a.category}</span>
                   <h3 className="text-[15px] font-semibold leading-snug text-[#1A1A14] mt-2 mb-1.5 group-hover:text-[#059669] transition-colors line-clamp-2" style={{ fontFamily: "var(--font-display)" }}>{a.title}</h3>
                   <p className="text-[13px] text-[#737369] line-clamp-2">{a.description}</p>
@@ -239,6 +255,7 @@ export default function HomePage() {
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-end justify-between mb-10">
               <div>
+                <div className="w-16 h-1 bg-[#059669] rounded-full mb-3" />
                 <p className="section-label mb-2">Comparatif vedette</p>
                 <h2 className="text-[28px] sm:text-[34px] font-semibold tracking-tight text-[#1A1A14]" style={{ fontFamily: "var(--font-display)" }}>Meilleurs hébergeurs mutualisés</h2>
               </div>
