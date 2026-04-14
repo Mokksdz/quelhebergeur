@@ -2,37 +2,44 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  /* ── Palette éditoriale chaude ── */
-  --color-background: #f8f6f1;      /* crème chaude */
+  --color-background: #FAFAF8;
   --color-surface: #ffffff;
-  --color-foreground: #111218;      /* encre chaude, pas noir pur */
-  --color-accent: #059669;          /* vert émeraude */
+  --color-foreground: #1A1A14;
+  --color-accent: #059669;
   --color-accent-hover: #047857;
   --color-accent-light: #ecfdf5;
   --color-accent-subtle: #d1fae5;
-  --color-muted: #6b7280;
-  --color-muted-bg: #f0ede6;        /* warm muted */
-  --color-border: #e3e0d8;          /* warm border */
+  --color-accent-rgb: 5 150 105;
+  --color-muted: #737369;
+  --color-muted-bg: #F5F5F0;
+  --color-border: #E8E8E3;
   --color-card: #ffffff;
   --color-success: #059669;
   --color-success-light: #ecfdf5;
   --color-warning: #d97706;
   --color-error: #dc2626;
-
-  /* ── Sombre éditorial ── */
-  --color-dark: #111218;
-  --color-dark-surface: #181b24;
+  --color-dark: #1A1A14;
+  --color-dark-surface: #141414;
   --color-dark-border: rgba(255,255,255,0.08);
+  --font-display: var(--font-display), "Helvetica Neue", sans-serif;
+  --font-body: var(--font-body), "Helvetica Neue", sans-serif;
+  --font-mono: var(--font-mono), "Courier New", monospace;
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-card-hover: 0 8px 24px rgba(0,0,0,0.08);
+  --shadow-accent: 0 4px 16px rgba(5, 150, 105, 0.20);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+}
 
-  /* ── Typographie ── */
-  --font-display: var(--font-sora), "Helvetica Neue", sans-serif;
-  --font-body: var(--font-source-sans), "Helvetica Neue", sans-serif;
-  --font-mono: var(--font-fira-code), "Courier New", monospace;
-
-  /* ── Shadows ── */
-  --shadow-card: 0 1px 4px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
-  --shadow-card-hover: 0 14px 36px 0 rgb(0 0 0 / 0.11), 0 2px 8px -1px rgb(0 0 0 / 0.06);
-  --shadow-inset-top: inset 0 1px 0 0 rgb(255 255 255 / 0.08);
+html.dark {
+  --color-background: #0A0A0A;
+  --color-surface: #141414;
+  --color-foreground: #F5F5F5;
+  --color-border: #2E2E2E;
+  --color-muted: #8A8A8A;
+  --color-muted-bg: #1F1F1F;
+  --color-card: #141414;
 }
 
 /* ═══════════════════════════════════════
@@ -314,3 +321,8 @@ body {
   to   { stroke-dashoffset: 0; }
 }
 .check-draw { stroke-dasharray: 20; stroke-dashoffset: 20; animation: check-draw 0.4s ease forwards; }
+
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes slide-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+html { transition: background-color 0.2s ease, color 0.2s ease; }

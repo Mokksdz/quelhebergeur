@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "type-check": "tsc --noEmit",
+    "ci:local": "pnpm type-check && pnpm build"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",

@@ -1,30 +1,30 @@
 import type { Metadata } from "next";
-import { Sora, Source_Sans_3, Fira_Code } from "next/font/google";
+import { Space_Grotesk, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import "./globals.css";
 
-const sora = Sora({
-  variable: "--font-sora",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-display",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
   preload: true,
 });
 
-const sourceSans3 = Source_Sans_3({
-  variable: "--font-source-sans",
+const interTight = Inter_Tight({
+  variable: "--font-body",
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  weight: ["400", "500", "600"],
   display: "swap",
   preload: true,
 });
 
-const firaCode = Fira_Code({
-  variable: "--font-fira-code",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "600"],
   display: "swap",
   preload: false,
 });
@@ -58,7 +58,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${sora.variable} ${sourceSans3.variable} ${firaCode.variable}`}
+      className={`${spaceGrotesk.variable} ${interTight.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-background text-foreground antialiased">
         <Header />
