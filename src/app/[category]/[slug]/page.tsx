@@ -4,6 +4,8 @@ import rehypeSlug from "rehype-slug";
 import Link from "next/link";
 import { getArticleBySlug, getAllArticlePaths, getAllArticles } from "@/lib/mdx";
 import { buildMetadata, buildCanonical, getCategoryLabel, SITE_URL } from "@/lib/seo";
+import { hostings } from "@/lib/hostings";
+import { affiliateLinks } from "@/lib/affiliates";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ReadingProgressBar } from "@/components/layout/ReadingProgressBar";
 import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
@@ -29,8 +31,14 @@ import {
 import { AffiliateButton } from "@/components/content/AffiliateButton";
 import { ProsConsList } from "@/components/ui/ProsConsList";
 import { OverallScore } from "@/components/ui/Rating";
+import { ShareButtons } from "@/components/ui/ShareButtons";
+import { ClientScrollToast } from "@/components/ui/ClientScrollToast";
 import { NewsletterCTA } from "@/components/content/NewsletterCTA";
 import { CrossSiteLink } from "@/components/content/CrossSiteLink";
+
+const topHosting = [...hostings].sort(
+  (a, b) => b.scores.overall - a.scores.overall
+)[0];
 
 interface PageProps {
   params: Promise<{ category: string; slug: string }>;
@@ -83,6 +91,10 @@ export default async function ArticlePage({ params }: PageProps) {
   return (
     <>
       <ReadingProgressBar />
+      <ClientScrollToast
+        toolName={topHosting.name}
+        toolHref={affiliateLinks[topHosting.affiliateId]?.url ?? "#"}
+      />
       <ArticleJsonLd
         title={meta.title}
         description={meta.description}
@@ -124,6 +136,9 @@ export default async function ArticlePage({ params }: PageProps) {
             <span>·</span>
             <span>{meta.readingTime}</span>
           </div>
+          <div className="mt-4">
+            <ShareButtons title={meta.title} />
+          </div>
         </div>
       </div>
 
@@ -131,6 +146,9 @@ export default async function ArticlePage({ params }: PageProps) {
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="max-w-3xl">
           <article className="prose prose-lg">
+            <p className="text-xs text-[#737369] italic mb-4 border-l-2 border-[#E8E8E3] pl-3 not-prose">
+              ℹ️ Cet article contient des liens affiliés. QuelHébergeur perçoit une commission si vous souscrivez via nos liens, sans coût supplémentaire pour vous.
+            </p>
             <MDXRemote
               source={content}
               components={mdxComponents}

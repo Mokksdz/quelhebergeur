@@ -3,7 +3,14 @@ import { Space_Grotesk, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
+import { ClientPopups } from "@/components/ui/ClientPopups";
+import { hostings } from "@/lib/hostings";
+import { affiliateLinks } from "@/lib/affiliates";
 import "./globals.css";
+
+const topHosting = [...hostings].sort(
+  (a, b) => b.scores.overall - a.scores.overall
+)[0];
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
@@ -65,6 +72,11 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <ScrollToTop />
+        <ClientPopups
+          toolName={topHosting.name}
+          toolHref={affiliateLinks[topHosting.affiliateId]?.url ?? "#"}
+          score={topHosting.scores.overall}
+        />
       </body>
     </html>
   );
